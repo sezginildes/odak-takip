@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Günlük Veli Takip Formu · Atak Dershane</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fc;
+    --ink: #12133a;
+    --mid: #3d4199;
+    --accent: #5b5ef4;
+    --accent2: #f4645b;
+    --warm: #f9a825;
+    --green: #1db87a;
+    --card: #ffffff;
+    --border: #e4e7f5;
+    --muted: #9497bb;
+    --soft: #f0f2ff;
+    --green-bg: #edfaf4;
+    --red-bg: #fff1f0;
+    --yellow-bg: #fffbec;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--ink);
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--ink);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-logo {
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .topbar-logo span { color: var(--warm); }
+  .topbar-tag {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--mid) 100%);
+    padding: 48px 24px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    top: -150px; right: -100px;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 250px; height: 250px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    bottom: -80px; left: -60px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.9);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    font-weight: 300;
+  }
+
+  /* PROGRESS */
+  .progress-container {
+    background: white;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mid);
+  }
+  .progress-pct {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .progress-track {
+    height: 5px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 28px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+    padding: 14px 20px;
+    background: var(--ink);
+    border-radius: 14px 14px 0 0;
+  }
+  .section-icon { font-size: 18px; }
+  .section-header h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+  }
+  .section-header p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 1px;
+    font-weight: 300;
+  }
+
+  .section-body {
+    background: var(--card);
+    border-radius: 0 0 14px 14px;
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* QUESTION ROW */
+  .q-row {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-row:last-child { border-bottom: none; }
+
+  .q-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .q-n {
+    min-width: 22px; height: 22px;
+    background: var(--soft);
+    color: var(--accent);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+    flex-shrink: 0;
+  }
+
+  /* YES/NO/SOMETIMES */
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .duo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .radio-pill input { display: none; }
+  .radio-pill label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: center;
+    line-height: 1.3;
+    user-select: none;
+  }
+  .radio-pill label:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--soft);
+  }
+  .radio-pill.green input:checked + label {
+    background: var(--green-bg);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .radio-pill.red input:checked + label {
+    background: var(--red-bg);
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+  .radio-pill.yellow input:checked + label {
+    background: var(--yellow-bg);
+    border-color: var(--warm);
+    color: #c47e00;
+  }
+  .radio-pill.blue input:checked + label {
+    background: var(--soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* CHIPS (multi-choice style) */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip input { display: none; }
+  .chip label {
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .chip label:hover { border-color: var(--accent); color: var(--accent); }
+  .chip input:checked + label {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: white;
+  }
+
+  /* SCALE */
+  .scale-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .scale-row {
+    display: flex;
+    gap: 6px;
+  }
+  .scale-item input { display: none; }
+  .scale-item { flex: 1; }
+  .scale-item label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    user-select: none;
+  }
+  .scale-item label:hover { border-color: var(--accent); color: var(--accent); }
+  .scale-item input:checked + label {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(91,94,244,0.3);
+    transform: scale(1.05);
+  }
+  .scale-ends {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 400;
+    padding: 0 4px;
+  }
+
+  /* TEXT INPUT */
+  input[type="text"], input[type="date"], textarea, select {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--bg);
+  }
+  input[type="text"]:focus, input[type="date"]:focus,
+  textarea:focus, select:focus {
+    border-color: var(--accent);
+    background: white;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+  textarea { resize: vertical; min-height: 72px; }
+
+  /* SUBMIT */
+  .submit-area {
+    text-align: center;
+    padding-top: 12px;
+  }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--accent), var(--mid));
+    color: white;
+    border: none;
+    padding: 16px 52px;
+    border-radius: 50px;
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    box-shadow: 0 8px 28px rgba(91,94,244,0.4);
+    transition: all 0.3s;
+  }
+  .btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(91,94,244,0.5);
+  }
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .submit-note {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* SUCCESS */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(18,19,58,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .overlay.show { display: flex; }
+  .success-box {
+    background: white;
+    border-radius: 24px;
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    animation: pop 0.45s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.75); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: var(--green-bg);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+  }
+  .success-box h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .success-box p {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .btn-ok {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 13px 32px;
+    border-radius: 30px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-ok:hover { opacity: 0.8; }
+
+  @media (max-width: 480px) {
+    .trio { grid-template-columns: 1fr; }
+    .hero { padding: 36px 20px 44px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-logo">ATAK <span>Dershane</span></div>
+  <div class="topbar-tag">Danışman: Sezgin İldeş</div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">Veli · Günlük Gözlem Formu</div>
+  <h1>Bugün Çocuğunuzu<br>Nasıl Gördünüz?</h1>
+  <p>Her gün doldurun · Yanıtlarınız danışmana iletilir</p>
+</div>
+
+<!-- Progress (sticky) -->
+<div class="progress-container">
+  <div class="progress-top">
+    <span class="progress-text" id="progressText">Başlamak için formu doldurun</span>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- Form -->
+<div class="main">
+<form id="mainForm">
+
+  <!-- BÖLÜM 1: KİMLİK -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📋</span>
+      <div>
+        <h2>Genel Bilgi</h2>
+        <p>Tarih ve öğrenci bilgisi</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">1</span>Bugünün tarihi:</div>
+        <input type="date" name="tarih" id="tarihInput" required>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">2</span>Öğrencinin adı:</div>
+        <input type="text" name="ogrenci_adi" placeholder="Ad Soyad" required>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">3</span>Adınız (veli):</div>
+        <input type="text" name="veli_adi" placeholder="Ad Soyad" required>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BÖLÜM 2: SABAH & HAZIRLIK -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🌅</span>
+      <div>
+        <h2>Sabah & Hazırlık</h2>
+        <p>Güne başlama rutini</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">4</span>Bugün kaçta kalktı?</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="kalkis" id="k1" value="7den_once"><label for="k1">07:00'den önce</label></div>
+          <div class="chip"><input type="radio" name="kalkis" id="k2" value="7-8"><label for="k2">07:00 – 08:00</label></div>
+          <div class="chip"><input type="radio" name="kalkis" id="k3" value="8-9"><label for="k3">08:00 – 09:00</label></div>
+          <div class="chip"><input type="radio" name="kalkis" id="k4" value="9den_sonra"><label for="k4">09:00'dan sonra</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">5</span>Sabah hazırlanması nasıldı?</div>
+        <div class="trio">
+          <div class="radio-pill green"><input type="radio" name="hazirlik" id="h1" value="duzenli"><label for="h1">✓ Düzenli</label></div>
+          <div class="radio-pill yellow"><input type="radio" name="hazirlik" id="h2" value="orta"><label for="h2">~ Biraz dağınık</label></div>
+          <div class="radio-pill red"><input type="radio" name="hazirlik" id="h3" value="dagınik"><label for="h3">✗ Çok dağınık</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">6</span>Gece kaçta uyudu (dün gece)?</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="uyku" id="u1" value="22den_once"><label for="u1">22:00'den önce</label></div>
+          <div class="chip"><input type="radio" name="uyku" id="u2" value="22-23"><label for="u2">22:00 – 23:00</label></div>
+          <div class="chip"><input type="radio" name="uyku" id="u3" value="23-24"><label for="u3">23:00 – 00:00</label></div>
+          <div class="chip"><input type="radio" name="uyku" id="u4" value="gece"><label for="u4">Gece 00:00+</label></div>
+          <div class="chip"><input type="radio" name="uyku" id="u5" value="bilmiyorum"><label for="u5">Bilmiyorum</label></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BÖLÜM 3: DERS ÇALIŞMA -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📚</span>
+      <div>
+        <h2>Ders Çalışma</h2>
+        <p>Evdeki çalışma gözlemleri</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">7</span>Bugün evde ders çalıştı mı?</div>
+        <div class="trio">
+          <div class="radio-pill green"><input type="radio" name="ders" id="d1" value="evet"><label for="d1">✓ Evet</label></div>
+          <div class="radio-pill yellow"><input type="radio" name="ders" id="d2" value="az"><label for="d2">~ Az biraz</label></div>
+          <div class="radio-pill red"><input type="radio" name="ders" id="d3" value="hayir"><label for="d3">✗ Hayır</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">8</span>En uzun kesintisiz çalışma süresi:</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="sure" id="s1" value="hic"><label for="s1">Hiç çalışmadı</label></div>
+          <div class="chip"><input type="radio" name="sure" id="s2" value="10dk"><label for="s2">10 dk'dan az</label></div>
+          <div class="chip"><input type="radio" name="sure" id="s3" value="10-20dk"><label for="s3">10 – 20 dk</label></div>
+          <div class="chip"><input type="radio" name="sure" id="s4" value="20-45dk"><label for="s4">20 – 45 dk</label></div>
+          <div class="chip"><input type="radio" name="sure" id="s5" value="45+dk"><label for="s5">45 dk+</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">9</span>Çalışırken telefon / ekran müdahalesi oldu mu?</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="telefon" id="t1" value="hic"><label for="t1">Hiç olmadı</label></div>
+          <div class="chip"><input type="radio" name="telefon" id="t2" value="1-2kez"><label for="t2">1–2 kez</label></div>
+          <div class="chip"><input type="radio" name="telefon" id="t3" value="sik"><label for="t3">Sık sık</label></div>
+          <div class="chip"><input type="radio" name="telefon" id="t4" value="hepsinde"><label for="t4">Her seferinde</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">10</span>Çalışma masası / odası düzenli miydi?</div>
+        <div class="trio">
+          <div class="radio-pill green"><input type="radio" name="masa" id="m1" value="duzenli"><label for="m1">✓ Düzenli</label></div>
+          <div class="radio-pill yellow"><input type="radio" name="masa" id="m2" value="orta"><label for="m2">~ Orta</label></div>
+          <div class="radio-pill red"><input type="radio" name="masa" id="m3" value="dagınik"><label for="m3">✗ Çok dağınık</label></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BÖLÜM 4: DAVRANIŞ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">⚡</span>
+      <div>
+        <h2>Davranış & Dürtüsellik</h2>
+        <p>Bugün gözlemlenen davranışlar</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">11</span>Konuşmalarınızı böldü / sözünüzü kesti mi?</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="soz_kesti" id="sk1" value="hic"><label for="sk1">Hiç</label></div>
+          <div class="chip"><input type="radio" name="soz_kesti" id="sk2" value="1-2kez"><label for="sk2">1–2 kez</label></div>
+          <div class="chip"><input type="radio" name="soz_kesti" id="sk3" value="sik"><label for="sk3">Sık sık</label></div>
+          <div class="chip"><input type="radio" name="soz_kesti" id="sk4" value="hep"><label for="sk4">Sürekli</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">12</span>Ani öfke / sabırsızlık / sinirlenme gözlemledi mi?</div>
+        <div class="trio">
+          <div class="radio-pill green"><input type="radio" name="ofke" id="o1" value="hayir"><label for="o1">✓ Hayır</label></div>
+          <div class="radio-pill yellow"><input type="radio" name="ofke" id="o2" value="biraz"><label for="o2">~ Biraz</label></div>
+          <div class="radio-pill red"><input type="radio" name="ofke" id="o3" value="evet"><label for="o3">✗ Evet</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">13</span>Görev / sorumluluk hatırlatınca nasıl tepki verdi?</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="tepki" id="tp1" value="tamam"><label for="tp1">Tamam, yaptı</label></div>
+          <div class="chip"><input type="radio" name="tepki" id="tp2" value="erteledi"><label for="tp2">Erteledi</label></div>
+          <div class="chip"><input type="radio" name="tepki" id="tp3" value="direnc"><label for="tp3">Direnç gösterdi</label></div>
+          <div class="chip"><input type="radio" name="tepki" id="tp4" value="sinir"><label for="tp4">Sinirli tepki</label></div>
+          <div class="chip"><input type="radio" name="tepki" id="tp5" value="yoktu"><label for="tp5">Görev yoktu</label></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BÖLÜM 5: GENEL DURUM -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">💛</span>
+      <div>
+        <h2>Genel Durum</h2>
+        <p>Bugünün genel tablosu</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">14</span>Bugün genel ruh hali nasıldı?</div>
+        <div class="scale-wrap">
+          <div class="scale-row">
+            <div class="scale-item"><input type="radio" name="ruh_hali" id="r1" value="1"><label for="r1">1</label></div>
+            <div class="scale-item"><input type="radio" name="ruh_hali" id="r2" value="2"><label for="r2">2</label></div>
+            <div class="scale-item"><input type="radio" name="ruh_hali" id="r3" value="3"><label for="r3">3</label></div>
+            <div class="scale-item"><input type="radio" name="ruh_hali" id="r4" value="4"><label for="r4">4</label></div>
+            <div class="scale-item"><input type="radio" name="ruh_hali" id="r5" value="5"><label for="r5">5</label></div>
+          </div>
+          <div class="scale-ends"><span>Çok kötü</span><span>Çok iyi</span></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">15</span>Dershane / okul hakkında ne söyledi?</div>
+        <div class="chips">
+          <div class="chip"><input type="radio" name="okul" id="ok1" value="olumlu"><label for="ok1">😊 Olumlu şeyler</label></div>
+          <div class="chip"><input type="radio" name="okul" id="ok2" value="notr"><label for="ok2">😐 Hiçbir şey</label></div>
+          <div class="chip"><input type="radio" name="okul" id="ok3" value="sikayet"><label for="ok3">😕 Şikayetçiydi</label></div>
+          <div class="chip"><input type="radio" name="okul" id="ok4" value="gitmek_istemedi"><label for="ok4">😤 Gitmek istemedi</label></div>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">16</span>Bugün genel enerji ve motivasyon seviyesi:</div>
+        <div class="scale-wrap">
+          <div class="scale-row">
+            <div class="scale-item"><input type="radio" name="enerji" id="e1" value="1"><label for="e1">1</label></div>
+            <div class="scale-item"><input type="radio" name="enerji" id="e2" value="2"><label for="e2">2</label></div>
+            <div class="scale-item"><input type="radio" name="enerji" id="e3" value="3"><label for="e3">3</label></div>
+            <div class="scale-item"><input type="radio" name="enerji" id="e4" value="4"><label for="e4">4</label></div>
+            <div class="scale-item"><input type="radio" name="enerji" id="e5" value="5"><label for="e5">5</label></div>
+          </div>
+          <div class="scale-ends"><span>Çok düşük</span><span>Çok yüksek</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BÖLÜM 6: NOTLAR -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">✍️</span>
+      <div>
+        <h2>Bugünün Notu</h2>
+        <p>Danışmana iletmek istedikleriniz</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">17</span>Bugün sizi en çok endişelendiren neydi?</div>
+        <textarea name="endise" placeholder="Herhangi bir endişeniz varsa buraya yazın..."></textarea>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">18</span>Bugün gözlemlediğiniz olumlu bir şey var mıydı?</div>
+        <textarea name="olumlu" placeholder="Küçük de olsa bir gelişme, güzel bir an..."></textarea>
+      </div>
+
+      <div class="q-row">
+        <div class="q-text"><span class="q-n">19</span>Sezgin Hoca'ya iletmek istediğiniz başka bir şey:</div>
+        <textarea name="hoca_notu" placeholder="Soru, gözlem veya paylaşmak istediğiniz herhangi bir şey..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button type="submit" class="btn-submit" id="submitBtn">Formu Gönder →</button>
+    <p class="submit-note">Yanıtlarınız Sezgin İldeş'e iletilir · Gizlilik içinde saklanır</p>
+  </div>
+
+</form>
+</div>
+
+<!-- Success Overlay -->
+<div class="overlay" id="overlay">
+  <div class="success-box">
+    <div class="success-icon">✓</div>
+    <h3>Teşekkürler!</h3>
+    <p>Yanıtlarınız başarıyla gönderildi.<br>Sezgin Hoca en kısa sürede inceleyecek.</p>
+    <button class="btn-ok" onclick="closeOverlay()">Tamam</button>
+  </div>
+</div>
+
+<script>
+  // Auto-fill today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('tarihInput').value = today;
+
+  // Progress tracking
+  const TOTAL = 19;
+  function updateProgress() {
+    const answered = new Set();
+    document.querySelectorAll('input[type="radio"]:checked').forEach(i => answered.add(i.name));
+    document.querySelectorAll('input[type="text"], input[type="date"]').forEach(i => {
+      if (i.value.trim()) answered.add(i.name);
+    });
+    document.querySelectorAll('textarea').forEach(t => {
+      if (t.value.trim()) answered.add(t.name);
+    });
+    const count = Math.min(answered.size, TOTAL);
+    const pct = Math.round(count / TOTAL * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+    document.getElementById('progressText').textContent =
+      count === TOTAL ? '✓ Form tamamlandı!' :
+      count === 0 ? 'Başlamak için formu doldurun' :
+      `${count} / ${TOTAL} soru tamamlandı`;
+  }
+
+  document.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('change', updateProgress);
+    el.addEventListener('input', updateProgress);
+  });
+  updateProgress();
+
+  // Submit → Formspree
+  document.getElementById('mainForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Gönderiliyor...';
+    btn.disabled = true;
+
+    const formData = new FormData(this);
+
+    try {
+      const res = await fetch('https://formspree.io/f/xrgrawql', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        document.getElementById('overlay').classList.add('show');
+        this.reset();
+        document.getElementById('tarihInput').value = today;
+        updateProgress();
+      } else {
+        alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+      }
+    } catch (err) {
+      alert('Bağlantı hatası. İnternet bağlantınızı kontrol edin.');
+    }
+
+    btn.textContent = 'Formu Gönder →';
+    btn.disabled = false;
+  });
+
+  function closeOverlay() {
+    document.getElementById('overlay').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
